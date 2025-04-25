@@ -1,6 +1,7 @@
 
 const passport = require('passport');
-const GoogleStrategy = require('../Strategies/google');
+require('../Strategies/google');
+require('../Strategies/github');
 const User = require('../models/usermodel');
 
 

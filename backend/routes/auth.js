@@ -20,9 +20,15 @@ authrouter.get('/auth/google/callback',
         res.redirect('/profile');
     });
 
+
+
+
+
 // Route for handling user registration github
 authrouter.get('/auth/github',
     passport.authenticate('github', { scope: ['profile'] }));
+
+
 authrouter.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
     function (req, res) {

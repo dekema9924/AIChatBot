@@ -1,15 +1,34 @@
 
-
+const passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
+var User = require('../models/usermodel');
+
 
 passport.use(new GitHubStrategy({
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
-    callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.GITHUB_REDIRECT_URI
 },
-    function (accessToken, refreshToken, profile, cb) {
-        User.findOrCreate({ githubId: profile.id }, function (err, user) {
-            return cb(err, user);
-        });
+    async function (accessToken, refreshToken, profile, cb) {
+        console.log("GitHub Profile: ", profile);
+        console.log("GitHub Access Token: ", accessToken);
+        try {
+            // Check if user already exists
+            let user = await User.findOne({ githubId: profile.id });
+
+            if (!user) {
+                // If user does not exist, create a new one
+                user = await User.create({
+                    githubId: profile.id,
+                    displayName: profile.displayName,
+                    profilePicture: profile.photos[0].value,
+                });
+            }
+
+            // Pass the user to the session
+            cb(null, user);
+        } catch (err) {
+            cb(err, null);  // Handle any error during the process
+        }
     }
 ));
