@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+:root {
+  --background-color: #121117; /* Deep dark background */
+  --surface-color: #15141b; /* Slightly lighter dark for cards/containers */
+  --primary-color: #8b5cf6; /* Soft, bright purple */
+  --primary-hover-color: #7c3aed; /* Darker purple for hover */
+  --accent-color: #a78bfa; /* Lighter accent purple */
+  --text-primary: #ffffff; /* Main text color (white) */
+  --text-secondary: #a1a1aa; /* Soft gray for secondary text */
+  --border-color: #2a2835; /* Subtle border color */
+  --button-background: #8b5cf6; /* Button color */
+  --button-text-color: #ffffff; /* Button text color */
+  --scrollbar-color: #6b7280; /* Scrollbar thumb */
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary);
+}
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.border {
+  border: 1px solid var(--border-color);
+}
+
+.card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+}
