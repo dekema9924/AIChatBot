@@ -7,11 +7,18 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/Store';
 
 
 function Header() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const location = useLocation();
+    const isLoading = useSelector((state: RootState) => state.user.isLoading)
+    const user = useSelector((state: RootState) => state.user.value)
+
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
@@ -36,21 +43,43 @@ function Header() {
                     <ArrowForwardIosIcon />
                 </div>
                 {/* //right side nav */}
-                <nav className='flex gap-4 mr-4'>
+                <nav className='flex items-center gap-4 mr-12'>
                     <span className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
                         <SearchIcon />
                     </span>
                     <span onClick={toggleDropdown} className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
                         <Person3Icon />
                     </span>
+
+                    {
+                        !isLoading ?
+                            <>
+                                <Link to="/" className="w-14 h-14 rounded-full text-center pt-3 block cursor-pointer">
+                                    Home
+                                </Link>
+                            </>
+                            :
+                            <Link to="/sign-in" className="w-14 h-14 rounded-full text-center pt-3 block cursor-pointer">
+                                Sign In
+                            </Link>
+
+
+                    }
+
                     {/* //dropdown menu */}
                     <div className={`card absolute  ${dropdownOpen ? "w-70" : "w-0 h-0 overflow-hidden"} bg-white rounded-md shadow-lg right-5 top-18`}>
                         <div className='flex items-center gap-2 p-6'>
-                            <img className='w-20 h-20 object-cover rounded-md' src="https://placehold.co/600x400" alt="profileImg" />
-                            <div className=' text-start'>
-                                <p>Test User</p>
-                                <p className='text-secondary'>testUser@gmail.com</p>
-                            </div>
+                            <img className='w-20 h-20 object-cover rounded-md' src={!isLoading ? user.image : "https://placehold.co/600x400"} alt="profileImg" />
+                            {
+                                !isLoading ?
+                                    <>
+                                        <div className=' text-start'>
+                                            <p>{user.name}</p>
+                                            <p className='text-secondary'>testUser@gmail.com</p>
+                                        </div>
+                                    </>
+                                    : ""
+                            }
                         </div>
                         <hr className=' border w-11/12 m-auto' />
                         <ul className=' text-start text-secondary'>

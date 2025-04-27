@@ -1,14 +1,73 @@
 
 
-import React from 'react'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { ROUTES } from '../../config/config'
+import { useDispatch } from 'react-redux'
+import { login, setLoading } from '../../features/UserSlice'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/Store'
+import ImageIcon from '@mui/icons-material/Image';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
 function Home() {
+    const dispatch = useDispatch()
+
+
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(ROUTES.profile, { withCredentials: true })
+                dispatch(login({
+                    id: response.data._id,
+                    name: response.data.displayName,
+                    image: response.data.profilePicture,
+                }))
+                dispatch(setLoading(false))
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            }
+        }
+
+        fetchData()
+    }, [])
+
+
+
+
     return (
-        <main>
-            <section className='flex flex-col gap-4'>
+        <main className='flex flex-col' >
+            <section className='flex flex-col gap-4 mb-16 items-center'>
                 <h1 className='text-3xl font-bold'>Welcome to CYBRS</h1>
-                <p className='text-gray-500'>This is the home page of the CYBRS application.</p>
+                <p className='text-gray-500 text-center'>This is the home page of the CYBRS application.</p>
             </section>
+
+            {/* //cards */}
+            <div className='flex flex-col gap-10 items-center'>
+
+                <div className='card border-2 w-10/12 flex flex-col items-center justify-center py-4 transition-all duration-700 cursor-pointer'>
+                    <span className=' w-24 rounded-full h-24 block text-center pt-5 bg-gray-500'>
+                        <ImageIcon style={{ fontSize: 50 }} />
+                    </span>
+                    <h1 className='my-4'>Image Generations</h1>
+                    <p className='text-secondary text-center w-10/12 my-4 '>Create stunning AI-generated images in seconds. Just describe what you imagine, and our tool brings it to life</p>
+                    <NavigateNextIcon className='hover:scale-145 transotion-all duration-500' />
+
+                </div>
+
+                <div className='card border-2 w-10/12 flex flex-col items-center justify-center py-4 cursor-pointer'>
+                    <span className=' w-24 rounded-full h-24 block text-center pt-5 bg-gray-500'>
+                        <QuestionAnswerIcon style={{ fontSize: 50 }} />
+                    </span>
+                    <h1 className='my-4'>Image Generations</h1>
+                    <p className='text-secondary text-center w-10/12  my-4'>Create stunning AI-generated images in seconds. Just describe what you imagine, and our tool brings it to life</p>
+                    <NavigateNextIcon className='hover:scale-145 transotion-all duration-500' />
+
+                </div>
+            </div>
         </main>
     )
 }

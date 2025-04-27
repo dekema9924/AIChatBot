@@ -10,8 +10,7 @@ passport.use(new GitHubStrategy({
     callbackURL: process.env.GITHUB_REDIRECT_URI
 },
     async function (accessToken, refreshToken, profile, cb) {
-        console.log("GitHub Profile: ", profile);
-        console.log("GitHub Access Token: ", accessToken);
+        // console.log("GitHub Profile: ", profile);
         try {
             // Check if user already exists
             let user = await User.findOne({ githubId: profile.id });

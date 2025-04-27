@@ -9,6 +9,8 @@ passport.use(new GoogleStrategy({
     callbackURL: process.env.GOOGLE_REDIRECT_URI,
 },
     async function (accessToken, refreshToken, profile, cb) {
+        console.log("Google Profile: ", profile);
+
         try {
             // Check if user already exists
             let user = await User.findOne({ googleId: profile.id });

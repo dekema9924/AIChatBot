@@ -9,11 +9,21 @@ const passport = require('passport');
 require('./config/passport')
 const session = require('express-session');
 require('./config/db')
+const cors = require('cors');
+
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:5173' : 'https://your-production-url.com', // Replace with your frontend URL
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    optionsSuccessStatus: 200 // For legacy browser support
+};
+
+app.use(cors(corsOptions));
 
 
 //initialize passport
 app.use(session({
     secret: process.env.SESSION_SECRET,
+    name: 'sessionId',
     resave: false,
     saveUninitialized: true,
     cookie: {

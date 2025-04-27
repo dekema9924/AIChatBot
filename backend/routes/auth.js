@@ -17,7 +17,7 @@ authrouter.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/profile');
+        res.redirect('http://localhost:5173');
     });
 
 
@@ -33,11 +33,11 @@ authrouter.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/profile');
+        res.redirect('http://localhost:5173');
     });
 
 //get user profile
-authrouter.get('/profile', getUserProfile)
+authrouter.get('/auth/profile', getUserProfile)
 
 
 module.exports = authrouter;
