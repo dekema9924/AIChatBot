@@ -5,8 +5,7 @@ import axios from 'axios'
 import { ROUTES } from '../../config/config'
 import { useDispatch } from 'react-redux'
 import { login, setLoading } from '../../features/UserSlice'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store/Store'
+import { Link } from 'react-router-dom'
 import ImageIcon from '@mui/icons-material/Image';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
@@ -25,6 +24,7 @@ function Home() {
                     id: response.data._id,
                     name: response.data.displayName,
                     image: response.data.profilePicture,
+                    isLoggedIn: true
                 }))
                 dispatch(setLoading(false))
             } catch (error) {
@@ -58,15 +58,15 @@ function Home() {
 
                 </div>
 
-                <div className='card border-2 w-10/12 flex flex-col items-center justify-center py-4 cursor-pointer'>
+                <Link to={'/chat'} className='card border-2 w-10/12 flex flex-col items-center justify-center py-4 cursor-pointer'>
                     <span className=' w-24 rounded-full h-24 block text-center pt-5 bg-gray-500'>
                         <QuestionAnswerIcon style={{ fontSize: 50 }} />
                     </span>
-                    <h1 className='my-4'>Image Generations</h1>
-                    <p className='text-secondary text-center w-10/12  my-4'>Create stunning AI-generated images in seconds. Just describe what you imagine, and our tool brings it to life</p>
+                    <h1 className='my-4'>Chat Bot</h1>
+                    <p className='text-secondary text-center w-10/12  my-4'>Talk to CYBRS, AI Chatbot</p>
                     <NavigateNextIcon className='hover:scale-145 transotion-all duration-500' />
 
-                </div>
+                </Link>
             </div>
         </main>
     )

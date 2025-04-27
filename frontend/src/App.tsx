@@ -5,6 +5,7 @@ import Settings from "./pages/Settings"
 import Home from "./pages/Home/Home"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
+import ChatBot from "./pages/ChatBot"
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/chat" element={<ChatBot />} />
+
         </Routes>
       </div>
     </>

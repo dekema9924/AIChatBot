@@ -7,7 +7,6 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 
@@ -15,7 +14,6 @@ import { RootState } from '../store/Store';
 function Header() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const location = useLocation();
     const isLoading = useSelector((state: RootState) => state.user.isLoading)
     const user = useSelector((state: RootState) => state.user.value)
 
@@ -47,9 +45,13 @@ function Header() {
                     <span className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
                         <SearchIcon />
                     </span>
-                    <span onClick={toggleDropdown} className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
-                        <Person3Icon />
-                    </span>
+                    {
+                        user.isLoggedIn ?
+                            <span onClick={toggleDropdown} className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
+                                <Person3Icon />
+                            </span>
+                            : ""
+                    }
 
                     {
                         !isLoading ?

@@ -6,6 +6,7 @@ interface UserState {
         id: string;
         name: string;
         image: string;
+        isLoggedIn: boolean;
     };
     isLoading: boolean;
 }
@@ -14,6 +15,7 @@ const initialState: UserState = {
         id: "",
         name: "",
         image: "",
+        isLoggedIn: false,
     },
     isLoading: true,
 };
