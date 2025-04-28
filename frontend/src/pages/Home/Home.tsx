@@ -20,6 +20,7 @@ function Home() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(ROUTES.profile, { withCredentials: true })
+                console.log(response.data)
                 dispatch(login({
                     id: response.data._id,
                     name: response.data.displayName,

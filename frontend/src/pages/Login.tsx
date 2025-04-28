@@ -18,11 +18,19 @@ function Login() {
 
     //google OAuth
     const HandleGoogleOAuthWindow = () => {
-        window.open(
-            `${ROUTES.googleOAuth}`, // Your backend OAuth route
-            '_blank',
+        const popup = window.open(
+            `${ROUTES.googleOAuth}`,
+            'googleOAuthPopup',
             'width=500,height=600'
         )
+
+        if (popup) {
+            document.body.innerHTML = '<h2>Waiting for Authentication</h2>';
+        } else {
+            alert('Popup blocked! Please allow popups for this site.');
+        }
+
+
     }
 
     //github OAuth

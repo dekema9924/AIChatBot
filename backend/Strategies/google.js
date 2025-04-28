@@ -2,6 +2,7 @@
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
 const User = require('../models/usermodel');
+const createToken = require('../controllers/createToken');
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -9,7 +10,6 @@ passport.use(new GoogleStrategy({
     callbackURL: process.env.GOOGLE_REDIRECT_URI,
 },
     async function (accessToken, refreshToken, profile, cb) {
-        console.log("Google Profile: ", profile);
 
         try {
             // Check if user already exists
@@ -22,6 +22,7 @@ passport.use(new GoogleStrategy({
                     displayName: profile.displayName,
                     profilePicture: profile.photos[0].value,
                 });
+
             }
 
             // Pass the user to the session

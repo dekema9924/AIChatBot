@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import { API_BASE_URL } from "../config/config";
 
 type Message = {
     sender: "user" | "bot";
@@ -6,30 +8,50 @@ type Message = {
 };
 
 export default function ChatBot() {
+
     const [messages, setMessages] = useState<Message[]>([
         { sender: "bot", text: "Hello! How can I assist you today?" }
     ]);
+    const [isThinking, setThinking] = useState(true)
+
+
+    //user input
     const [input, setInput] = useState<string>("");
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    const handleSend = () => {
-        if (!input.trim()) return;
+
+    //get api bot response
+    const GoogleGenAiResponse = async () => {
+        if (!input.trim()) return; // check before doing anything
 
         const userMessage: Message = { sender: "user", text: input };
-        const botMessage: Message = { sender: "bot", text: generateBotResponse(input) };
+        setMessages((prev) => [...prev, userMessage]);
+        setInput(""); // Clear input immediately
+        setThinking(true); // Bot starts thinking immediately
 
-        setMessages((prev) => [...prev, userMessage, botMessage]);
-        setInput("");
+        try {
+            const response = await axios.post(`${API_BASE_URL}/api`, { text: input });
+
+            const botMessage: Message = { sender: "bot", text: response.data.reply };
+            setMessages((prev) => [...prev, botMessage]);
+        } catch (error) {
+            const errorMessage: Message = { sender: "bot", text: "Oops! Something went wrong." };
+            setMessages((prev) => [...prev, errorMessage]);
+        } finally {
+            setThinking(false); // Whether success or fail, bot stops thinking
+        }
     };
 
-    const generateBotResponse = (userInput: string): string => {
-        if (userInput.toLowerCase().includes("cybrs")) return "CYBRS is a cybersecurity solution.";
-        return "Thanks for your message! I'll get back to you.";
+    const handleSend = () => {
+        GoogleGenAiResponse()
     };
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
+
+
+
 
     return (
         <div className="flex flex-col h-screen bg-[#121212] text-white">
@@ -44,14 +66,22 @@ export default function ChatBot() {
                         <div className="text-xs text-purple-400 mb-1">
                             {msg.sender === "user" ? "YOU" : "BOT"}
                         </div>
+
                         <div className="text-base">{msg.text}</div>
                     </div>
                 ))}
+                {isThinking && (
+                    <div className="w-11/12 mx-auto p-4 rounded-2xl bg-[#1e1e1e] animate-pulse">
+                        <div className="text-xs text-purple-400 mb-1">BOT</div>
+                        <div className="text-base">Thinking...</div>
+                    </div>
+                )}
+
                 <div ref={messagesEndRef} />
             </div>
 
             {/* Fixed input at bottom */}
-            <div className="fixed bottom-0 left-0 w-full bg-[#121212] p-4 border-t border-gray-700">
+            <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="fixed bottom-0 left-0 w-full bg-[#121212] p-4 border-t border-gray-700">
                 <div className="flex w-11/12 mx-auto">
                     <input
                         type="text"
@@ -62,13 +92,13 @@ export default function ChatBot() {
                         onKeyDown={(e) => e.key === "Enter" && handleSend()}
                     />
                     <button
-                        onClick={handleSend}
+                        type="submit"
                         className="ml-3 bg-purple-400 text-black px-5 py-3 rounded-full font-semibold hover:bg-purple-300 transition"
                     >
                         Send
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

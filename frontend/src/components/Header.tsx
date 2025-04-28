@@ -9,6 +9,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
+import axios from 'axios';
+import { API_BASE_URL } from '../config/config';
+import { logout } from '../features/UserSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 function Header() {
@@ -16,6 +21,8 @@ function Header() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const isLoading = useSelector((state: RootState) => state.user.isLoading)
     const user = useSelector((state: RootState) => state.user.value)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
 
     const toggleSidebar = () => {
@@ -29,6 +36,15 @@ function Header() {
         setSidebarOpen(false);
         setDropdownOpen(false);
     };
+
+    const handleLogOut = () => {
+        axios.get(`${API_BASE_URL}/auth/logout`, { withCredentials: true }).then((response) => {
+            console.log(response.data)
+            dispatch(logout())
+            setDropdownOpen(false)
+            navigate('/sign-in')
+        })
+    }
 
     document.body.style.overflow = sidebarOpen ? "hidden" : "auto";
     document.body.style.overflowY = sidebarOpen ? "hidden" : "auto";
@@ -93,7 +109,7 @@ function Header() {
                                 <SettingsIcon className='inline-block mr-2' />
                                 Settings
                             </Link>
-                            <li className='p-2 hover:bg-[#2a2835] rounded-md cursor-pointer '>
+                            <li onClick={handleLogOut} className='p-2 hover:bg-[#2a2835] rounded-md cursor-pointer '>
                                 <LogoutIcon className='inline-block mr-2' />
                                 Logout
                             </li>
