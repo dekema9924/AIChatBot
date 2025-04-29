@@ -4,10 +4,18 @@ var GitHubStrategy = require('passport-github').Strategy;
 var User = require('../models/usermodel');
 
 
+const redirectUri =
+    process.env.NODE_ENV === 'development'
+        ? process.env.GITHUB_REDIRECT_URI_DEV
+        : process.env.GITHUB_REDIRECT_URI_PROD;
+
+
+
+
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.GITHUB_REDIRECT_URI
+    callbackURL: redirectUri
 },
     async function (accessToken, refreshToken, profile, cb) {
         // console.log("GitHub Profile: ", profile);
