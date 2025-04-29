@@ -33,6 +33,8 @@ authrouter.get('/auth/google/callback',
             httpOnly: true,
             sameSite: 'lax'
         })
+        console.log(process.env.NODE_ENV)
+        console.log(process.env.PRODUCTION_URL)
 
         res.redirect(
             process.env.NODE_ENV === 'development' ?
