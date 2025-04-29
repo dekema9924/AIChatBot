@@ -39,7 +39,6 @@ authrouter.get('/auth/google/callback',
                 process.env.DEVELOPMENT_URL :
                 process.env.PRODUCTION_URL
         );
-        console.log(process.env.NODE_ENV)
 
 
     });
