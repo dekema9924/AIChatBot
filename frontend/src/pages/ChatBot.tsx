@@ -59,7 +59,7 @@ export default function ChatBot() {
 
 
     return (
-        <div className="flex flex-col h-screen bg-[#121212] text-white relative  -z-1">
+        <div className="flex flex-col h-screen bg-[#121212] text-white ">
             {/* Scrollable chat area */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 mb-24">
                 {messages.map((msg, idx) => (

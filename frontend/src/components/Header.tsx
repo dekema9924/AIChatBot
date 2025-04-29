@@ -58,7 +58,7 @@ function Header() {
                     <ArrowForwardIosIcon />
                 </div>
                 {/* //right side nav */}
-                <nav className='flex items-center gap-4 mr-12'>
+                <nav className='flex items-center gap-4 mr-12 z-50'>
                     {/* <span className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
                         <SearchIcon />
                     </span> */}
