@@ -7,13 +7,60 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import HttpsIcon from '@mui/icons-material/Https';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import axios from 'axios'
+import { API_BASE_URL } from '../config/config';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function SignUp() {
+    const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState("text");
+    const [input, setInput] = useState({
+        email: '',
+        password: '',
+        username: ''
+    })
 
     const handlePasswordVisibility = () => {
         setShowPassword((prev: string) => (prev === "text" ? "password" : "text"));
     };
+
+
+
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setInput(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
+
+
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault()
+        axios.post(`${API_BASE_URL}/auth/register`, {
+            email: input.email,
+            password: input.password,
+            username: input.username
+        }).then((response) => {
+            console.log(response.status)
+            if (response.status == 201) {
+                toast.success(response.data.message)
+                navigate('/sign-in')
+            } else {
+                toast.error(response.data.message || 'Something went wrong');
+
+            }
+
+        })
+            .catch((error) => {
+                if (error.response && error.response.data && error.response.data.message) {
+                    toast.error(error.response.data.message);
+                } else {
+                    toast.error('Server error');
+                }
+            })
+    }
 
     return (
         <>
@@ -21,22 +68,22 @@ function SignUp() {
                 <h1 className='text-4xl font-bold'>Welcome Back</h1>
                 <p>Please enter your credentials to sign in.</p>
 
-                <form className='mt-24 card w-full md:w-[500px] p-6 md:h-[600px]' action="">
+                <form onSubmit={(e) => handleSubmit(e)} className='mt-24 card w-full md:w-[500px] p-6 md:h-[600px]' action="">
                     {/* //email */}
                     <div>
                         <label className='text-secondary' htmlFor="email">Email</label>
                         <div className=' flex items-center h-14 relative w-full'>
                             <EmailIcon className='absolute left-2 text-secondary ' />
-                            <input className='border  w-full h-10 rounded-md pl-10' type="email" placeholder='your#email.com' />
+                            <input required onChange={(e) => handleInput(e)} className='border  w-full h-10 rounded-md pl-10' type="email" placeholder='your#email.com' name='email' />
                         </div>
                     </div>
 
                     {/* //username */}
                     <div>
-                        <label className='text-secondary' htmlFor="email">Username</label>
+                        <label className='text-secondary' htmlFor="username">Username</label>
                         <div className=' flex items-center h-14 relative w-full'>
                             <AccountCircleIcon className='absolute left-2 text-secondary ' />
-                            <input className='border  w-full h-10 rounded-md pl-10' type="text" placeholder='@james' />
+                            <input required onChange={(e) => handleInput(e)} className='border  w-full h-10 rounded-md pl-10' type="text" placeholder='@james' name='username' />
                         </div>
                     </div>
 
@@ -45,7 +92,7 @@ function SignUp() {
                         <label className='text-secondary' htmlFor="email">Password</label>
                         <div className=' flex items-center h-14 relative w-full'>
                             <HttpsIcon className='absolute left-2 text-secondary ' />
-                            <input className='border  w-full h-10 rounded-md pl-10' type={showPassword} placeholder='********' />
+                            <input required onChange={(e) => handleInput(e)} className='border  w-full h-10 rounded-md pl-10' type={showPassword} name='password' placeholder='********' />
                             <span onClick={handlePasswordVisibility} className='absolute right-2 cursor-pointer'>
                                 {showPassword === "text" ? <VisibilityOffIcon className='text-secondary' /> : <VisibilityIcon className='text-secondary' />}
                             </span>
@@ -58,9 +105,9 @@ function SignUp() {
                     />
 
                     <div className='flex items-center p-2'>
-                        <hr className='border my-7 w-4/12' />
+                        <hr className='border my-7 w-3/12' />
                         <p className='px-2 text-xs'>Or Continue With</p>
-                        <hr className='border my-7 w-4/12' />
+                        <hr className='border my-7 w-3/12' />
                     </div>
 
                     {/* //Oauth Buttons */}
@@ -91,7 +138,7 @@ function SignUp() {
                         />
                     </div>
 
-                    <p className='text-secondary text-xs text-center mt-4'>By signing in, you agree to our <span className='text-primary cursor-pointer'>Terms of Service</span> and <span className='text-primary cursor-pointer'>Privacy Policy</span></p>
+                    <p className='text-secondary text-xs text-center mt-4'>By signing in, you agree to our <Link to={'/terms'} className='text-primary cursor-pointer'>Terms of Service</Link> and <Link to={'/privacy'} className='text-primary cursor-pointer'>Privacy Policy</Link></p>
                 </form>
                 <p className='text-secondary my-4 text-sm'>Already a member? <Link className='text-gray-300' to={'/sign-in'}>Sign In</Link></p>
             </div>

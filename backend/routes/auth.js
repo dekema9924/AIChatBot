@@ -6,6 +6,8 @@ const getUserProfile = require('../controllers/getUserProfile');
 const Logout = require('../controllers/logout');
 const isAuth = require('../middleware/isAuth');
 const createToken = require('../controllers/createToken');
+const Register = require('../controllers/Register');
+const Login = require('../controllers/Login');
 
 authrouter.get('/login', (req, res) => {
     res.send('Login page');
@@ -19,20 +21,24 @@ authrouter.get('/auth/google',
 authrouter.get('/auth/google/callback',
     passport.authenticate('google', { session: false, failureRedirect: '/login' }),
     function (req, res) {
-        // Successful authentication, redirect home.
-        // console.log('req.user:', req.user); // has _id, not id
 
         const user = {
-            _id: req.user._id
+            id: req.user._id
         }
-        let token = createToken(user)
+
+        let token = createToken(user.id)
         res.cookie('token', token, {
             secure: process.env.NODE_ENV === 'development' ? false : true, // true in production (HTTPS)
             maxAge: 3600000, // 1h 
             httpOnly: true,
             sameSite: 'lax'
         })
-        res.redirect('http://localhost:5173');
+        res.redirect(
+            process.env.NODE_ENV == 'development' ?
+                process.env.DEVELOPMENT_URL :
+                process.env.PRODUCTION_URL
+        );
+
     });
 
 
@@ -49,22 +55,38 @@ authrouter.get('/auth/github/callback',
     function (req, res) {
         // Successful authentication, redirect home.
         const user = {
-            _id: req.user._id
+            id: req.user._id
         }
-        let token = createToken(user)
+        let token = createToken(user.id)
         res.cookie('token', token, {
             secure: process.env.NODE_ENV === 'development' ? false : true, // true in production (HTTPS)
             maxAge: 3600000, // 1h 
             httpOnly: true,
             sameSite: 'lax'
         })
-        res.redirect('http://localhost:5173');
+        res.redirect(
+            process.env.NODE_ENV == 'development' ?
+                process.env.DEVELOPMENT_URL :
+                process.env.PRODUCTION_URL
+        );
+
     });
 
 //get user profile
 authrouter.get('/auth/profile', isAuth, getUserProfile)
 
 authrouter.get('/auth/logout', isAuth, Logout)
+
+
+
+//passport local auth
+
+//register 
+authrouter.post('/auth/register', Register)
+
+//Login
+authrouter.post('/auth/login', Login)
+
 
 
 module.exports = authrouter;

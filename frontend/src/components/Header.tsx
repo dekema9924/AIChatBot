@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
 import Person3Icon from '@mui/icons-material/Person3';
 import HomeFilledIcon from '@mui/icons-material/HomeFilled';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Header() {
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const isLoading = useSelector((state: RootState) => state.user.isLoading)
@@ -58,9 +59,9 @@ function Header() {
                 </div>
                 {/* //right side nav */}
                 <nav className='flex items-center gap-4 mr-12'>
-                    <span className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
+                    {/* <span className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
                         <SearchIcon />
-                    </span>
+                    </span> */}
                     {
                         user.isLoggedIn ?
                             <span onClick={toggleDropdown} className='card w-14 h-14 rounded-full text-center pt-3 block cursor-pointer'>
@@ -70,7 +71,7 @@ function Header() {
                     }
 
                     {
-                        !isLoading ?
+                        user.isLoggedIn ?
                             <>
                                 <Link to="/" className="w-14 h-14 rounded-full text-center pt-3 block cursor-pointer">
                                     Home
@@ -87,20 +88,20 @@ function Header() {
                     {/* //dropdown menu */}
                     <div className={`card absolute  ${dropdownOpen ? "w-70" : "w-0 h-0 overflow-hidden"} bg-white rounded-md shadow-lg right-5 top-18`}>
                         <div className='flex items-center gap-2 p-6'>
-                            <img className='w-20 h-20 object-cover rounded-md' src={!isLoading ? user.image : "https://placehold.co/600x400"} alt="profileImg" />
+                            <img className='w-20 h-20 object-cover rounded-md' src={!isLoading ? user.image || "https://placehold.co/600x400" : "https://placehold.co/600x400"} alt="profileImg" />
                             {
                                 !isLoading ?
                                     <>
                                         <div className=' text-start'>
                                             <p>{user.name}</p>
-                                            <p className='text-secondary'>testUser@gmail.com</p>
+                                            <p className='text-secondary'>{user.email}</p>
                                         </div>
                                     </>
                                     : ""
                             }
                         </div>
                         <hr className=' border w-11/12 m-auto' />
-                        <ul className=' text-start text-secondary'>
+                        <ul className=' text-start text-secondary relative z-50'>
                             <Link onClick={closeSidebar} to={'/profile'} className='p-2 hover:bg-[#2a2835] block cursor-pointer'>
                                 <Person3Icon className='inline-block mr-2' />
                                 Profile
@@ -140,11 +141,6 @@ function Header() {
                     </ul>
 
                 </aside>
-
-
-
-
-
             </header>
         </>
     )

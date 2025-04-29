@@ -6,12 +6,17 @@ import Home from "./pages/Home/Home"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import ChatBot from "./pages/ChatBot"
+import { Toaster } from 'react-hot-toast';
+import TermsOfService from "./pages/Terms"
+import PrivacyPolicy from "./pages/Privacy"
+
 
 
 function App() {
 
   return (
     <>
+      <Toaster />
       <Header />
       <div className=" mx-auto  w-11/12 mt-14">
         <Routes>
@@ -21,6 +26,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/chat" element={<ChatBot />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+
 
         </Routes>
       </div>

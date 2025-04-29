@@ -6,13 +6,61 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import HttpsIcon from '@mui/icons-material/Https';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { ROUTES } from '../config/config';
+import axios from 'axios';
+import { API_BASE_URL } from '../config/config';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [showPassword, setShowPassword] = useState("text");
+    const navigate = useNavigate()
+
+    const [input, setInput] = useState({
+        password: '',
+        username: ''
+    })
+
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setInput(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
+
 
     const handlePasswordVisibility = () => {
         setShowPassword((prev: string) => (prev === "text" ? "password" : "text"));
     };
+
+    //handleform submit
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+        console.log(input)
+        e.preventDefault()
+        axios.post(`${API_BASE_URL}/auth/login`, {
+            username: input.username,
+            password: input.password,
+
+        }, { withCredentials: true })
+            .then((response) => {
+                console.log(response.status)
+                if (response.status === 200) {
+                    toast.success(response.data.message)
+                    navigate('/')
+                } else {
+                    toast.error(response.data.message || 'Something went wrong');
+
+                }
+
+            })
+            .catch((error) => {
+                if (error.response && error.response.data && error.response.data.message) {
+                    toast.error(error.response.data.message);
+                } else {
+                    toast.error('Server error');
+                }
+            })
+    }
+
 
 
 
@@ -48,13 +96,13 @@ function Login() {
                 <h1 className='text-4xl font-bold'>Welcome Back</h1>
                 <p>Please enter your credentials to sign in.</p>
 
-                <form className='mt-24 card w-full md:w-[500px] p-6 md:h-[500px]' action="">
+                <form onSubmit={(e) => handleSubmit(e)} className='mt-24 card w-full md:w-[500px] p-6 md:h-[500px]' action="">
                     {/* //email */}
                     <div>
                         <label className='text-secondary' htmlFor="email">Email</label>
                         <div className=' flex items-center h-14 relative w-full'>
                             <EmailIcon className='absolute left-2 text-secondary ' />
-                            <input className='border  w-full h-10 rounded-md pl-10' type="email" placeholder='your#email.com' />
+                            <input required onChange={(e) => handleInput(e)} className='border  w-full h-10 rounded-md pl-10' type="text" placeholder='email or username' name='username' />
                         </div>
                     </div>
 
@@ -63,7 +111,7 @@ function Login() {
                         <label className='text-secondary' htmlFor="email">Password</label>
                         <div className=' flex items-center h-14 relative w-full'>
                             <HttpsIcon className='absolute left-2 text-secondary ' />
-                            <input className='border  w-full h-10 rounded-md pl-10' type={showPassword} placeholder='********' />
+                            <input required onChange={(e) => handleInput(e)} className='border  w-full h-10 rounded-md pl-10' type={showPassword} placeholder='********' name='password' />
                             <span onClick={handlePasswordVisibility} className='absolute right-2 cursor-pointer'>
                                 {showPassword === "text" ? <VisibilityOffIcon className='text-secondary' /> : <VisibilityIcon className='text-secondary' />}
                             </span>
@@ -76,9 +124,9 @@ function Login() {
                     />
 
                     <div className='flex items-center p-2'>
-                        <hr className='border my-7 w-4/12' />
+                        <hr className='border my-7 w-3/12' />
                         <p className='px-2 text-xs'>Or Continue With</p>
-                        <hr className='border my-7 w-4/12' />
+                        <hr className='border my-7 w-3/12' />
                     </div>
 
                     {/* //Oauth Buttons */}
@@ -111,9 +159,9 @@ function Login() {
                         />
                     </div>
 
-                    <p className='text-secondary text-xs text-center mt-4'>By signing in, you agree to our <span className='text-primary cursor-pointer'>Terms of Service</span> and <span className='text-primary cursor-pointer'>Privacy Policy</span></p>
+                    <p className='text-secondary text-xs text-center mt-4'>By signing in, you agree to our <Link to={'/terms'} className='text-primary cursor-pointer'>Terms of Service</Link> and <Link to={'/privacy'} className='text-primary cursor-pointer'>Privacy Policy</Link></p>
                 </form>
-                <p className='text-secondary my-4 text-sm'>Not a memner? <Link className='text-gray-300' to={'/sign-up'}>Sign Up</Link></p>
+                <p className='text-secondary my-4 text-sm'>Not a member? <Link className='text-gray-300' to={'/sign-up'}>Sign Up</Link></p>
             </div>
         </>
     )

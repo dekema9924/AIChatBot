@@ -1,43 +1,13 @@
 
-
-import { useEffect } from 'react'
-import axios from 'axios'
-import { ROUTES } from '../../config/config'
-import { useDispatch } from 'react-redux'
-import { login, setLoading } from '../../features/UserSlice'
 import { Link } from 'react-router-dom'
 import ImageIcon from '@mui/icons-material/Image';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 
+import useUserProfile from '../../hooks/useUserProfile'
+
 function Home() {
-    const dispatch = useDispatch()
-
-
-
-    useEffect(() => {
-
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(ROUTES.profile, { withCredentials: true })
-                console.log(response.data)
-                dispatch(login({
-                    id: response.data._id,
-                    name: response.data.displayName,
-                    image: response.data.profilePicture,
-                    isLoggedIn: true
-                }))
-                dispatch(setLoading(false))
-            } catch (error) {
-                console.error('Error fetching data:', error)
-            }
-        }
-
-        fetchData()
-    }, [])
-
-
-
+    useUserProfile()
 
     return (
         <main className='flex flex-col' >
@@ -55,7 +25,8 @@ function Home() {
                     </span>
                     <h1 className='my-4'>Image Generations</h1>
                     <p className='text-secondary text-center w-10/12 my-4 '>Create stunning AI-generated images in seconds. Just describe what you imagine, and our tool brings it to life</p>
-                    <NavigateNextIcon className='hover:scale-145 transotion-all duration-500' />
+                    {/* <NavigateNextIcon className='hover:scale-145 transotion-all duration-500' /> */}
+                    <p className='text-xs '>COMING SOON</p>
 
                 </div>
 

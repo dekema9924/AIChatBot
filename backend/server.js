@@ -11,6 +11,7 @@ require('./config/db')
 const cors = require('cors');
 const apiRouter = require('./routes/api')
 var cookieParser = require('cookie-parser')
+require('./config/passportLocal')
 
 
 const corsOptions = {
@@ -21,8 +22,8 @@ const corsOptions = {
 
 
 // Middleware
-app.use(cookieParser())
 app.use(cors(corsOptions));
+app.use(cookieParser())
 //initialize passport
 app.use(passport.initialize());
 app.use(express.json());
