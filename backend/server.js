@@ -15,7 +15,7 @@ require('./config/passportLocal')
 
 
 const corsOptions = {
-    origin: process.env.NODE_ENV === 'development' ? 'http://localhost:5173' : 'https://your-production-url.com', // Replace with your frontend URL
+    origin: process.env.NODE_ENV === 'development' ? process.env.DEVELOPMENT_URL : process.env.PRODUCTION_URL, // Replace with your frontend URL
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
     optionsSuccessStatus: 200
 };
