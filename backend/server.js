@@ -13,6 +13,7 @@ const apiRouter = require('./routes/api')
 var cookieParser = require('cookie-parser')
 require('./config/passportLocal')
 
+console.log(process.env.NODE_ENV)
 
 const corsOptions = {
     origin: process.env.NODE_ENV === 'development' ? process.env.DEVELOPMENT_URL : process.env.PRODUCTION_URL,
