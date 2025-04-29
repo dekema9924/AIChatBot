@@ -33,13 +33,14 @@ authrouter.get('/auth/google/callback',
             httpOnly: true,
             sameSite: 'lax'
         })
-        console.log(process.env.NODE_ENV)
 
         res.redirect(
             process.env.NODE_ENV === 'development' ?
                 process.env.DEVELOPMENT_URL :
                 process.env.PRODUCTION_URL
         );
+        console.log(process.env.NODE_ENV)
+
 
     });
 
@@ -71,6 +72,8 @@ authrouter.get('/auth/github/callback',
                 process.env.DEVELOPMENT_URL :
                 process.env.PRODUCTION_URL
         );
+
+
 
     });
 
