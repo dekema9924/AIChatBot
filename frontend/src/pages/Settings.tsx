@@ -1,9 +1,8 @@
-import React from 'react'
 
 function Settings() {
     return (
         <div>
-            settings
+            <p className='text-xs text-secondary'>COMING SOON</p>
         </div>
     )
 }

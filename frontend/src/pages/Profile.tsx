@@ -3,7 +3,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import useUserProfile from '../hooks/useUserProfile';
-import { useEffect } from 'react';
 
 function Profile() {
 
