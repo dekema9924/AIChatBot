@@ -31,7 +31,8 @@ authrouter.get('/auth/google/callback',
             secure: process.env.NODE_ENV === 'development' ? false : true, // true in production (HTTPS)
             maxAge: 3600000, // 1h 
             httpOnly: true,
-            sameSite: 'lax'
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+
         })
         console.log(process.env.NODE_ENV)
         console.log(process.env.PRODUCTION_URL)
@@ -66,7 +67,8 @@ authrouter.get('/auth/github/callback',
             secure: process.env.NODE_ENV === 'development' ? false : true, // true in production (HTTPS)
             maxAge: 3600000, // 1h 
             httpOnly: true,
-            sameSite: 'lax'
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+
         })
         res.redirect(
             process.env.NODE_ENV === 'development' ?

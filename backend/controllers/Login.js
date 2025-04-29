@@ -17,7 +17,8 @@ const Login = (req, res, next) => {
             secure: process.env.NODE_ENV === 'development' ? false : true, // true in production (HTTPS)
             maxAge: 3600000, // 1h 
             httpOnly: true,
-            sameSite: 'lax'
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+
         })
         return res.status(200).json({
             message: 'Login successful',
