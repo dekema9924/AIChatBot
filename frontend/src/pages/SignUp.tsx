@@ -68,7 +68,7 @@ function SignUp() {
                 <h1 className='text-4xl font-bold'>Welcome Back</h1>
                 <p>Please enter your credentials to sign in.</p>
 
-                <form onSubmit={(e) => handleSubmit(e)} className='mt-24 card w-full md:w-[500px] p-6 md:h-[600px]' action="">
+                <form onSubmit={(e) => handleSubmit(e)} className='md:mt-24 mt-14 card w-full md:w-[500px] p-6 md:h-[400px]' action="">
                     {/* //email */}
                     <div>
                         <label className='text-secondary' htmlFor="email">Email</label>
@@ -104,15 +104,15 @@ function SignUp() {
                         text='Register'
                     />
 
-                    <div className='flex items-center p-2'>
+                    {/* <div className='flex items-center p-2'>
                         <hr className='border my-7 w-3/12' />
                         <p className='px-2 text-xs'>Or Continue With</p>
                         <hr className='border my-7 w-3/12' />
-                    </div>
+                    </div> */}
 
 
                     {/* //Oauth Buttons */}
-                    <div className='flex flex-col gap-4'>
+                    {/* <div className='flex flex-col gap-4'>
                         <Button
                             text='Google'
                             style="w-full cursor-pointer flex items-center justify-center px-4 py-2  rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white "
@@ -137,7 +137,7 @@ function SignUp() {
                             }
 
                         />
-                    </div>
+                    </div> */}
 
                     <p className='text-secondary text-xs text-center mt-4'>By signing in, you agree to our <Link to={'/terms'} className='text-primary cursor-pointer'>Terms of Service</Link> and <Link to={'/privacy'} className='text-primary cursor-pointer'>Privacy Policy</Link></p>
                 </form>
