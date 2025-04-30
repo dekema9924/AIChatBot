@@ -20,6 +20,7 @@ const Login = (req, res, next) => {
             sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
 
         })
+
         return res.status(200).json({
             message: 'Login successful',
         });

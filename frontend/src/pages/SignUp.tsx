@@ -110,6 +110,7 @@ function SignUp() {
                         <hr className='border my-7 w-3/12' />
                     </div>
 
+
                     {/* //Oauth Buttons */}
                     <div className='flex flex-col gap-4'>
                         <Button
