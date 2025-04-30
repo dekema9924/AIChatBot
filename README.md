@@ -1,6 +1,6 @@
 # 🤖 AI Chatbot with Gemini API | OAuth & Passport-Local
 
-![Project Screenshot](./public/chatbot-preview.png)
+![Project Screenshot](./frontend/src/assets/images/Cybrs.png)
 
 A full-stack AI chatbot application powered by **Gemini API**, built with a modern tech stack including **React**, **TypeScript**, **Node.js**, **Express**, and **MongoDB**. The app supports both **Google OAuth 2.0** and **local email/password authentication** using **Passport.js**.
 
@@ -8,7 +8,7 @@ A full-stack AI chatbot application powered by **Gemini API**, built with a mode
 
 ## 🚀 Live Demo
 
-🔗 [View Demo](https://your-deployment-url.com)
+🔗 [View Demo](https://cybrs.netlify.app/)
 
 ---
 
@@ -34,14 +34,6 @@ A full-stack AI chatbot application powered by **Gemini API**, built with a mode
 - 🗂️ MongoDB storage for users and message history
 - 🧾 Clean and responsive UI using React + TypeScript
 - 🔐 Secure authentication via Passport.js
-
----
-
-## 📸 Project Preview
-
-![AI Chatbot UI](./public/chatbot-preview.png)
-
-> Make sure to replace the above path with your actual image path in the repository.
 
 ---
 
