@@ -2,7 +2,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const googleGenAi = async (req, res) => {
     const { text } = req.body;
-    console.log("User input:", text);
+    // console.log("User input:", text);
 
     // Initialize Gemini
     const genAI = new GoogleGenerativeAI(process.env.API_KEY);

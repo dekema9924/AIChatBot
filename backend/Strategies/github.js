@@ -18,13 +18,10 @@ passport.use(new GitHubStrategy({
     callbackURL: redirectUri
 },
     async function (accessToken, refreshToken, profile, cb) {
-        // console.log("GitHub Profile: ", profile);
         try {
-            // Check if user already exists
             let user = await User.findOne({ githubId: profile.id });
 
             if (!user) {
-                // If user does not exist, create a new one
                 user = await User.create({
                     githubId: profile.id,
                     displayName: profile.displayName,
@@ -32,10 +29,9 @@ passport.use(new GitHubStrategy({
                 });
             }
 
-            // Pass the user to the session
             cb(null, user);
         } catch (err) {
-            cb(err, null);  // Handle any error during the process
+            cb(err, null);
         }
     }
 ));
